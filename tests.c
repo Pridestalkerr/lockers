@@ -9,7 +9,7 @@ void* thr_fun(void *data)
 {
 	lockers_mutex_lock(&mutex);
 	printf("Inside thread...\n");
-	lockers_mutex_unlock(&mutex);
+	//lockers_mutex_unlock(&mutex);
 
 	return NULL;
 }
