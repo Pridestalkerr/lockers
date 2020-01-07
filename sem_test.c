@@ -1,6 +1,5 @@
 #include <pthread.h>
 #include <stdio.h>
-#include <semaphore.h>
 #include <stdlib.h>
 
 #include "lockers.h"
@@ -8,13 +7,13 @@
 
 typedef struct pair_s
 {
-	lockers_semaphore_t *sem;
+	lockers_sem_t *sem;
 	lockers_mutex_t *mut;
 	int id;
 	int *count;
 }pair_s;
 
-void barrier_point(lockers_semaphore_t *sem, lockers_mutex_t *mut, int *count)
+void barrier_point(lockers_sem_t *sem, lockers_mutex_t *mut, int *count)
 {
 	lockers_mutex_lock(mut);
 	(*count)--;
@@ -26,12 +25,12 @@ void barrier_point(lockers_semaphore_t *sem, lockers_mutex_t *mut, int *count)
 		int itr;
 		/*for(itr = 0; itr < 4; ++itr)
 		{
-			lockers_semaphore_post(sem, 1);
+			lockers_sem_post(sem, 1);
 		}*/
-		lockers_semaphore_post(sem, 5);
+		lockers_sem_post(sem, 5);
 	}
 	else
-		lockers_semaphore_wait(sem);
+		lockers_sem_wait(sem);
 }
 
 void *tfun(void *data)
@@ -45,8 +44,8 @@ void *tfun(void *data)
 
 int main(int argc, char **argv)
 {
-	lockers_semaphore_t sem;
-	lockers_semaphore_init(&sem, 0);
+	lockers_sem_t sem;
+	lockers_sem_init(&sem, 0);
 	int total = 5;
 	lockers_mutex_t mut;
 	lockers_mutex_init(&mut);
@@ -66,7 +65,7 @@ int main(int argc, char **argv)
 		pthread_join(thread_pool_s[itr], NULL);
 	}
 
-	lockers_semaphore_destroy(&sem);
+	lockers_sem_destroy(&sem);
 	lockers_mutex_destroy(&mut);
 
 	return 0;
