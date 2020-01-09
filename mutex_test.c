@@ -3,7 +3,7 @@
 #include <semaphore.h>
 #include <stdlib.h>
 
-#include "lockers.h"
+#include "mutex.h"
 
 typedef struct pair
 {

@@ -6,12 +6,15 @@
 
 typedef struct lockers_mutex_t
 {
-	volatile int val_;
-}lockers_mutex_t;
+	//0 for unlocked
+	//1 for locked
+	//2 for locked and contended
+	volatile int state_;
+}lockers_mutex_t;	//this might as well just be a define
 
-void lockers_mutex_init(struct lockers_mutex_t *mutex);
+int lockers_mutex_init(struct lockers_mutex_t *mutex);
 
-void lockers_mutex_destroy(struct lockers_mutex_t *mutex);
+int lockers_mutex_destroy(struct lockers_mutex_t *mutex);
 
 void lockers_mutex_lock(struct lockers_mutex_t *mutex);
 
